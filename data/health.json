@@ -1,5 +1,5 @@
 {
-  "last_checked_at": "2026-10-28T14:53:24.923391+00:00",
+  "last_checked_at": "2026-10-28T15:07:05.328198+00:00",
   "total_sources_monitored": 18,
   "healthy_sources": 18,
   "failing_sources": 0,
@@ -12,11 +12,11 @@
       "category": "adobe",
       "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCvjgXvBlbQiydffZU7m1_aw",
       "status_code": 200,
-      "response_time_ms": 59.1,
+      "response_time_ms": 182.2,
       "items_fetched": 10,
       "is_healthy": true,
       "error_message": null,
-      "last_checked_at": "2026-10-28T14:53:17.782644+00:00"
+      "last_checked_at": "2026-10-28T15:06:56.562318+00:00"
     },
     {
       "source_id": "cined-adobe",
@@ -24,11 +24,11 @@
       "category": "adobe",
       "url": "https://www.cined.com/category/software/adobe/feed/",
       "status_code": 200,
-      "response_time_ms": 804.8,
+      "response_time_ms": 1184.6,
       "items_fetched": 0,
       "is_healthy": true,
       "error_message": null,
-      "last_checked_at": "2026-10-28T14:53:18.587977+00:00"
+      "last_checked_at": "2026-10-28T15:06:57.747589+00:00"
     },
     {
       "source_id": "blackmagic-official",
@@ -36,11 +36,11 @@
       "category": "davinci-blackmagic",
       "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCufB8sMVyP9JEScMjLz74YA",
       "status_code": 200,
-      "response_time_ms": 267.7,
+      "response_time_ms": 226.4,
       "items_fetched": 10,
       "is_healthy": true,
       "error_message": null,
-      "last_checked_at": "2026-10-28T14:53:18.856587+00:00"
+      "last_checked_at": "2026-10-28T15:06:57.974955+00:00"
     },
     {
       "source_id": "cined-davinci",
@@ -48,11 +48,11 @@
       "category": "davinci-blackmagic",
       "url": "https://www.cined.com/category/software/davinci-resolve/feed/",
       "status_code": 200,
-      "response_time_ms": 829.4,
+      "response_time_ms": 1028.8,
       "items_fetched": 0,
       "is_healthy": true,
       "error_message": null,
-      "last_checked_at": "2026-10-28T14:53:19.686464+00:00"
+      "last_checked_at": "2026-10-28T15:06:59.004294+00:00"
     },
     {
       "source_id": "cined-gear",
@@ -60,11 +60,11 @@
       "category": "cameras-lenses-firmware",
       "url": "https://www.cined.com/feed/",
       "status_code": 200,
-      "response_time_ms": 837.4,
+      "response_time_ms": 1107.7,
       "items_fetched": 10,
       "is_healthy": true,
       "error_message": null,
-      "last_checked_at": "2026-10-28T14:53:20.527452+00:00"
+      "last_checked_at": "2026-10-28T15:07:00.115391+00:00"
     },
     {
       "source_id": "petapixel-news",
@@ -72,11 +72,11 @@
       "category": "cameras-lenses-firmware",
       "url": "https://petapixel.com/feed/",
       "status_code": 200,
-      "response_time_ms": 145.8,
+      "response_time_ms": 421.8,
       "items_fetched": 10,
       "is_healthy": true,
       "error_message": null,
-      "last_checked_at": "2026-10-28T14:53:20.674312+00:00"
+      "last_checked_at": "2026-10-28T15:07:00.538246+00:00"
     },
     {
       "source_id": "sony-alpha-rumors",
@@ -84,11 +84,11 @@
       "category": "cameras-lenses-firmware",
       "url": "https://www.sonyalpharumors.com/feed/",
       "status_code": 200,
-      "response_time_ms": 127.5,
+      "response_time_ms": 170.9,
       "items_fetched": 7,
       "is_healthy": true,
       "error_message": null,
-      "last_checked_at": "2026-10-28T14:53:20.802298+00:00"
+      "last_checked_at": "2026-10-28T15:07:00.709712+00:00"
     },
     {
       "source_id": "canon-rumors",
@@ -96,11 +96,11 @@
       "category": "cameras-lenses-firmware",
       "url": "https://www.canonrumors.com/feed/",
       "status_code": 200,
-      "response_time_ms": 602.2,
+      "response_time_ms": 627.3,
       "items_fetched": 10,
       "is_healthy": true,
       "error_message": null,
-      "last_checked_at": "2026-10-28T14:53:21.407636+00:00"
+      "last_checked_at": "2026-10-28T15:07:01.340223+00:00"
     },
     {
       "source_id": "digital-camera-world",
@@ -108,11 +108,11 @@
       "category": "cameras-lenses-firmware",
       "url": "https://www.digitalcameraworld.com/feeds/all",
       "status_code": 200,
-      "response_time_ms": 655.7,
+      "response_time_ms": 724.4,
       "items_fetched": 10,
       "is_healthy": true,
       "error_message": null,
-      "last_checked_at": "2026-10-28T14:53:22.085084+00:00"
+      "last_checked_at": "2026-10-28T15:07:02.086577+00:00"
     },
     {
       "source_id": "blender-official",
@@ -120,11 +120,11 @@
       "category": "motion-vfx-blender",
       "url": "https://www.blender.org/news/feed/",
       "status_code": 200,
-      "response_time_ms": 368.2,
+      "response_time_ms": 548.1,
       "items_fetched": 0,
       "is_healthy": true,
       "error_message": null,
-      "last_checked_at": "2026-10-28T14:53:22.453989+00:00"
+      "last_checked_at": "2026-10-28T15:07:02.635402+00:00"
     },
     {
       "source_id": "blendernation",
@@ -132,11 +132,11 @@
       "category": "motion-vfx-blender",
       "url": "https://www.blendernation.com/feed/",
       "status_code": 200,
-      "response_time_ms": 661.0,
+      "response_time_ms": 651.3,
       "items_fetched": 10,
       "is_healthy": true,
       "error_message": null,
-      "last_checked_at": "2026-10-28T14:53:23.115687+00:00"
+      "last_checked_at": "2026-10-28T15:07:03.287436+00:00"
     },
     {
       "source_id": "creative-boom",
@@ -144,11 +144,11 @@
       "category": "design-fonts-plugins",
       "url": "https://www.creativeboom.com/feed/",
       "status_code": 200,
-      "response_time_ms": 498.0,
+      "response_time_ms": 749.1,
       "items_fetched": 10,
       "is_healthy": true,
       "error_message": null,
-      "last_checked_at": "2026-10-28T14:53:23.615352+00:00"
+      "last_checked_at": "2026-10-28T15:07:04.038411+00:00"
     },
     {
       "source_id": "smashing-magazine",
@@ -156,11 +156,11 @@
       "category": "design-fonts-plugins",
       "url": "https://www.smashingmagazine.com/feed/",
       "status_code": 200,
-      "response_time_ms": 282.6,
+      "response_time_ms": 262.7,
       "items_fetched": 10,
       "is_healthy": true,
       "error_message": null,
-      "last_checked_at": "2026-10-28T14:53:23.908212+00:00"
+      "last_checked_at": "2026-10-28T15:07:04.310565+00:00"
     },
     {
       "source_id": "openai-news",
@@ -168,11 +168,11 @@
       "category": "ai-tools-offers",
       "url": "https://openai.com/news/rss.xml",
       "status_code": 200,
-      "response_time_ms": 142.8,
+      "response_time_ms": 156.5,
       "items_fetched": 10,
       "is_healthy": true,
       "error_message": null,
-      "last_checked_at": "2026-10-28T14:53:24.061327+00:00"
+      "last_checked_at": "2026-10-28T15:07:04.478981+00:00"
     },
     {
       "source_id": "huggingface-blog",
@@ -180,11 +180,11 @@
       "category": "ai-tools-offers",
       "url": "https://huggingface.co/blog/feed.xml",
       "status_code": 200,
-      "response_time_ms": 124.4,
+      "response_time_ms": 147.9,
       "items_fetched": 10,
       "is_healthy": true,
       "error_message": null,
-      "last_checked_at": "2026-10-28T14:53:24.191214+00:00"
+      "last_checked_at": "2026-10-28T15:07:04.633139+00:00"
     },
     {
       "source_id": "google-ai-blog",
@@ -192,11 +192,11 @@
       "category": "ai-tools-offers",
       "url": "https://blog.google/technology/ai/rss/",
       "status_code": 200,
-      "response_time_ms": 345.4,
+      "response_time_ms": 308.7,
       "items_fetched": 10,
       "is_healthy": true,
       "error_message": null,
-      "last_checked_at": "2026-10-28T14:53:24.537694+00:00"
+      "last_checked_at": "2026-10-28T15:07:04.942888+00:00"
     },
     {
       "source_id": "nofilmschool",
@@ -204,11 +204,11 @@
       "category": "photography-filmmaking-freelance",
       "url": "https://nofilmschool.com/rss.xml",
       "status_code": 200,
-      "response_time_ms": 155.1,
+      "response_time_ms": 137.5,
       "items_fetched": 10,
       "is_healthy": true,
       "error_message": null,
-      "last_checked_at": "2026-10-28T14:53:24.694675+00:00"
+      "last_checked_at": "2026-10-28T15:07:05.082169+00:00"
     },
     {
       "source_id": "fstoppers",
@@ -216,11 +216,11 @@
       "category": "photography-filmmaking-freelance",
       "url": "https://fstoppers.com/feed",
       "status_code": 200,
-      "response_time_ms": 117.5,
+      "response_time_ms": 135.2,
       "items_fetched": 10,
       "is_healthy": true,
       "error_message": null,
-      "last_checked_at": "2026-10-28T14:53:24.813415+00:00"
+      "last_checked_at": "2026-10-28T15:07:05.218507+00:00"
     }
   ]
 }
