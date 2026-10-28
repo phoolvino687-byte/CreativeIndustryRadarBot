@@ -54,7 +54,6 @@ jobs:
       - name: Execute Creative Radar Pipeline
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-       
           RADAR_ENV: production
         run: |
           DRY_FLAG=""
@@ -72,13 +71,121 @@ jobs:
 
           python main.py $DRY_FLAG $AI_FLAG --dashboard-url "$PAGES_URL"
 
+      - name: Send Daily Creative Radar Email
+        if: github.event.inputs.dry_run != 'true'
+        env:
+          MAIL_USERNAME: ${{ secrets.MAIL_USERNAME }}
+          MAIL_APP_PASSWORD: ${{ secrets.MAIL_APP_PASSWORD }}
+        run: |
+          python - <<'PY'
+          import json
+          import os
+          import smtplib
+          from datetime import datetime, timezone
+          from email.message import EmailMessage
+
+          username = os.environ.get("MAIL_USERNAME", "").strip()
+          password = os.environ.get("MAIL_APP_PASSWORD", "").replace(" ", "")
+
+          if not username or not password:
+              raise SystemExit(
+                  "Gmail secrets are missing. Configure MAIL_USERNAME and MAIL_APP_PASSWORD."
+              )
+
+          with open("data/radar.json", encoding="utf-8") as file:
+              radar = json.load(file)
+
+          important_items = []
+          for item in radar.get("items", []):
+              try:
+                  urgency = float(item.get("urgency_score") or 0)
+                  priority = float(item.get("composite_priority") or 0)
+              except (TypeError, ValueError):
+                  continue
+
+              trust = str(item.get("trust_level", "")).lower()
+              if trust in ("official", "reputable") and (
+                  urgency >= 8.5 or priority >= 8.5
+              ):
+                  important_items.append(item)
+
+          def priority_score(item):
+              try:
+                  return max(
+                      float(item.get("urgency_score") or 0),
+                      float(item.get("composite_priority") or 0),
+                  )
+              except (TypeError, ValueError):
+                  return 0
+
+          important_items.sort(key=priority_score, reverse=True)
+          important_items = important_items[:10]
+
+          today = datetime.now(timezone.utc).strftime("%d %b %Y")
+          message = EmailMessage()
+          message["Subject"] = f"Creative Radar Daily Briefing — {today}"
+          message["From"] = username
+          message["To"] = username
+
+          lines = [
+              "Your daily Creative Radar briefing",
+              "",
+              f"Active items: {radar.get('total_items', 0)}",
+              f"Urgent alerts: {radar.get('urgent_alerts_count', 0)}",
+              "",
+          ]
+
+          for item in important_items:
+              title = str(item.get("title") or "Untitled update")
+              source = str(item.get("source_name") or item.get("source") or "Unknown")
+              link = str(item.get("link") or item.get("url") or "")
+              score = item.get("composite_priority", "N/A")
+              summary = str(
+                  item.get("summary_what")
+                  or item.get("summary")
+                  or item.get("description")
+                  or ""
+              )
+
+              lines.extend([
+                  f"• {title}",
+                  f"  Source: {source}",
+                  f"  Priority: {score}/10",
+                  f"  {link}",
+              ])
+              if summary:
+                  lines.append(f"  {summary}")
+              lines.append("")
+
+          if not important_items:
+              lines.append(
+                  "No items met the high-priority and trusted-source filters today."
+              )
+
+          lines.extend([
+              "",
+              "Open your dashboard:",
+              "https://phoolvino687-byte.github.io/CreativeIndustryRadarBot/",
+          ])
+          message.set_content("\n".join(lines))
+
+          with smtplib.SMTP_SSL("smtp.gmail.com", 465, timeout=30) as smtp:
+              smtp.login(username, password)
+              smtp.send_message(message)
+
+          print(
+              f"Daily Creative Radar email sent successfully with "
+              f"{len(important_items)} important item(s)."
+          )
+          PY
+
       - name: Commit & Push Updated Intelligence Data
         if: github.event.inputs.dry_run != 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "Creative Radar Automation"
           git add data/radar.json data/health.json data/state.json
-          
+
           # Only commit if there are actual diffs
           if git diff --staged --quiet; then
             echo "No data changes detected. Skipping commit."
