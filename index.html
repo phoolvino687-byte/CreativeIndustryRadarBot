@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Creative Radar // Industry Intelligence</title>
+  <meta name="description" content="Personal intelligence platform collecting, ranking, and summarizing creative industry updates for filmmakers, 3D artists, editors, and designers.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>📡</text></svg>">
+</head>
+<body>
+  <!-- Stale / Offline Notification Banner -->
+  <aside id="stale-banner" class="notification-banner stale-banner hidden" role="alert" aria-live="polite">
+    <div class="banner-content">
+      <span class="banner-icon">⚠️</span>
+      <div class="banner-text">
+        <strong>Data Stale Notice:</strong> The intelligence feed has not updated within the last 48 hours. Showing cached state.
+      </div>
+    </div>
+  </aside>
+
+  <!-- Demo Content Indicator Banner -->
+  <aside id="demo-banner" class="notification-banner demo-banner hidden" role="status">
+    <div class="banner-content">
+      <span class="banner-icon">🧪</span>
+      <div class="banner-text">
+        <strong>Demo Mode Active:</strong> Displaying verified sample intelligence. Run the pipeline locally or via GitHub Actions to ingest live feeds.
+      </div>
+      <button id="dismiss-demo-btn" class="banner-btn" aria-label="Dismiss demo notice">Acknowledge</button>
+    </div>
+  </aside>
+
+  <!-- Site Header -->
+  <header class="app-header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-logo" aria-hidden="true">📡</div>
+        <div class="brand-info">
+          <div class="brand-title-row">
+            <h1 class="brand-name">Creative Radar</h1>
+            <span id="system-status-badge" class="badge badge-operational">
+              <span class="status-dot"></span> System Live
+            </span>
+          </div>
+          <p class="brand-tagline">Automated Intelligence for Creative Professionals</p>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <button id="refresh-data-btn" class="btn btn-secondary" title="Reload radar intelligence" aria-label="Refresh data">
+          <span aria-hidden="true">🔄</span> Refresh
+        </button>
+        <button id="health-modal-btn" class="btn btn-secondary" title="View Source Health Diagnostics" aria-haspopup="dialog">
+          <span aria-hidden="true">🩺</span> Source Health
+        </button>
+        <button id="theme-toggle" class="btn btn-icon" title="Toggle Light / Dark Mode" aria-label="Toggle theme">
+          <span id="theme-icon" aria-hidden="true">☀️</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Application Container -->
+  <main class="main-container">
+
+    <!-- KPI Overview Bar -->
+    <section class="kpi-grid" aria-label="Radar summary metrics">
+      <div class="kpi-card">
+        <span class="kpi-label">Active Items</span>
+        <span id="stat-total-items" class="kpi-value">--</span>
+        <span class="kpi-sub">Across 7 disciplines</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Urgent Alerts</span>
+        <span id="stat-urgent-alerts" class="kpi-value text-urgent">--</span>
+        <span class="kpi-sub">Priority score &ge; 8.5</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">AI Summarization</span>
+        <span id="stat-gemini-status" class="kpi-value text-accent">Active</span>
+        <span class="kpi-sub">3-part structured analysis</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-label">Last Successful Ingest</span>
+        <span id="stat-last-run" class="kpi-value text-mono">--</span>
+        <span class="kpi-sub" id="stat-last-run-rel">Synchronized</span>
+      </div>
+    </section>
+
+    <!-- Today's Briefing Hero Section -->
+    <section id="briefing-section" class="briefing-hero" aria-labelledby="briefing-title">
+      <div class="briefing-header">
+        <div class="briefing-title-group">
+          <span class="badge badge-pulse">Daily Digest</span>
+          <h2 id="briefing-title" class="briefing-title">Today's Radar Briefing</h2>
+          <span id="briefing-date" class="briefing-date"></span>
+        </div>
+        <button id="toggle-briefing-btn" class="btn btn-ghost" aria-expanded="true" aria-controls="briefing-items">
+          <span id="briefing-toggle-icon">−</span> Collapse Briefing
+        </button>
+      </div>
+      <div id="briefing-items" class="briefing-items-grid">
+        <!-- Rendered dynamically by app.js -->
+        <div class="loading-placeholder">Compiling daily intelligence briefing...</div>
+      </div>
+    </section>
+
+    <!-- View & Category Tabs -->
+    <nav class="views-nav" aria-label="Content sections">
+      <button class="nav-tab active" data-view="all">
+        <span aria-hidden="true">🌐</span> All Updates (<span id="count-all">0</span>)
+      </button>
+      <button class="nav-tab" data-view="urgent">
+        <span aria-hidden="true">🚨</span> Urgent Alerts (<span id="count-urgent">0</span>)
+      </button>
+      <button class="nav-tab" data-view="firmware">
+        <span aria-hidden="true">📷</span> Cameras &amp; Firmware (<span id="count-firmware">0</span>)
+      </button>
+      <button class="nav-tab" data-view="software">
+        <span aria-hidden="true">💻</span> Software Updates (<span id="count-software">0</span>)
+      </button>
+      <button class="nav-tab" data-view="offers">
+        <span aria-hidden="true">🏷️</span> Verified Offers (<span id="count-offers">0</span>)
+      </button>
+      <button class="nav-tab" data-view="saved">
+        <span aria-hidden="true">⭐</span> Bookmarks (<span id="count-saved">0</span>)
+      </button>
+    </nav>
+
+    <!-- Filter & Search Toolbar -->
+    <section class="toolbar" aria-label="Filter and search controls">
+      <div class="search-box">
+        <span class="search-icon" aria-hidden="true">🔍</span>
+        <input type="search" id="search-input" placeholder="Search keywords, cameras, tools, or version (e.g. 'v19', 'Sony', 'coupon')..." aria-label="Search radar items">
+        <button id="clear-search-btn" class="clear-search-btn hidden" aria-label="Clear search">✕</button>
+      </div>
+
+      <div class="filter-controls">
+        <div class="select-wrapper">
+          <label for="category-filter" class="sr-only">Filter by category</label>
+          <select id="category-filter" aria-label="Filter by category">
+            <option value="all">All Categories</option>
+            <option value="adobe">Adobe Apps</option>
+            <option value="davinci-blackmagic">DaVinci Resolve / Blackmagic</option>
+            <option value="cameras-lenses-firmware">Cameras &amp; Firmware</option>
+            <option value="motion-vfx-blender">Motion &amp; Blender</option>
+            <option value="design-fonts-plugins">Design &amp; Fonts</option>
+            <option value="ai-tools-offers">AI Tools &amp; Offers</option>
+            <option value="photography-filmmaking-freelance">Freelance &amp; Film</option>
+          </select>
+        </div>
+
+        <div class="select-wrapper">
+          <label for="trust-filter" class="sr-only">Filter by verification level</label>
+          <select id="trust-filter" aria-label="Filter by verification level">
+            <option value="all">All Trust Levels</option>
+            <option value="official">Official / Confirmed</option>
+            <option value="reputable">Reputable Reporting</option>
+            <option value="community">Community / Unverified</option>
+          </select>
+        </div>
+
+        <div class="select-wrapper">
+          <label for="sort-select" class="sr-only">Sort items</label>
+          <select id="sort-select" aria-label="Sort radar items">
+            <option value="priority">Priority: Highest First</option>
+            <option value="newest">Date: Newest First</option>
+            <option value="urgency">Urgency: Critical First</option>
+            <option value="value">Value: Highest First</option>
+            <option value="reliability">Reliability First</option>
+          </select>
+        </div>
+
+        <button id="toggle-unread-btn" class="btn btn-secondary btn-sm" title="Show only unread stories" aria-pressed="false">
+          <span aria-hidden="true">👁️</span> Unread Only
+        </button>
+        <button id="mark-all-read-btn" class="btn btn-ghost btn-sm" title="Mark all current stories as read">
+          Mark All Read
+        </button>
+      </div>
+    </section>
+
+    <!-- Active Filter Chips -->
+    <div id="filter-chips-bar" class="filter-chips-bar hidden" aria-live="polite">
+      <span class="chips-label">Active filters:</span>
+      <div id="filter-chips" class="chips-container"></div>
+      <button id="reset-filters-btn" class="btn btn-link">Reset all</button>
+    </div>
+
+    <!-- Cards Grid -->
+    <section id="cards-container" class="cards-grid" aria-label="Curated radar intelligence items">
+      <div class="loading-state">
+        <div class="spinner" aria-hidden="true"></div>
+        <p>Loading curated creative intelligence...</p>
+      </div>
+    </section>
+
+    <!-- Empty State Template -->
+    <div id="empty-state" class="empty-state hidden" role="status">
+      <div class="empty-icon" aria-hidden="true">🔍</div>
+      <h3 class="empty-title">No items match your criteria</h3>
+      <p class="empty-desc">Try clearing your search query or loosening category filters.</p>
+      <button id="empty-reset-btn" class="btn btn-secondary">Clear Filters</button>
+    </div>
+
+    <!-- Error State Template -->
+    <div id="error-state" class="empty-state error-state hidden" role="alert">
+      <div class="empty-icon" aria-hidden="true">⚠️</div>
+      <h3 class="empty-title">Unable to Load Intelligence Feed</h3>
+      <p id="error-desc" class="empty-desc">Could not connect to the radar data feed.</p>
+      <div class="error-actions">
+        <button id="error-retry-btn" class="btn btn-secondary">Retry</button>
+        <button id="error-demo-btn" class="btn btn-ghost">Load Demo Data</button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Health Diagnostics Modal -->
+  <dialog id="health-modal" class="modal" aria-labelledby="health-modal-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title-row">
+          <h2 id="health-modal-title" class="modal-title">Feed Health Diagnostics</h2>
+          <span id="modal-status-badge" class="badge badge-operational">Operational</span>
+        </div>
+        <button id="close-modal-btn" class="btn-close" aria-label="Close dialog">✕</button>
+      </div>
+      <div class="modal-body">
+        <p class="modal-desc">Real-time status, response latency, and yield counts across all registered intelligence sources.</p>
+        <div class="table-responsive">
+          <table class="health-table">
+            <thead>
+              <tr>
+                <th scope="col">Source Name</th>
+                <th scope="col">Category</th>
+                <th scope="col">Status</th>
+                <th scope="col">Latency</th>
+                <th scope="col">Yield</th>
+                <th scope="col">Health</th>
+              </tr>
+            </thead>
+            <tbody id="health-table-body">
+              <tr>
+                <td colspan="6" class="text-center">Loading diagnostics...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <span id="health-last-checked" class="text-muted text-sm">Checked: --</span>
+        <button id="modal-done-btn" class="btn btn-secondary">Done</button>
+      </div>
+    </div>
+  </dialog>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container" aria-live="polite"></div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="footer-container">
+      <div class="footer-left">
+        <span class="footer-brand">Creative Radar</span>
+        <span class="footer-tagline">Open Intelligence Engine for Creators</span>
+      </div>
+      <div class="footer-right">
+        <span class="footer-note">Zero-cost infrastructure • GitHub Actions + GitHub Pages + Gemini Free Tier</span>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
